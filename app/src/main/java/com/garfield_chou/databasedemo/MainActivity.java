@@ -1,8 +1,10 @@
 package com.garfield_chou.databasedemo;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +22,21 @@ public class MainActivity extends AppCompatActivity {
             myDatabase.execSQL("INSERT INTO users (name, age) VALUES ('Rob', 34)");
 
             myDatabase.execSQL("INSERT INTO users (name, age) VALUES ('garfield', 34)");
+
+            Cursor c = myDatabase.rawQuery("SELECT * FROM users", null);
+
+            int nameIndex = c.getColumnIndex("name");
+            int ageIndex = c.getColumnIndex("age");
+
+            c.moveToFirst();
+            while (c != null) {
+
+                Log.i("name", c.getString(nameIndex));
+                Log.i("age", Integer.toString(c.getInt(ageIndex)));
+
+                c.moveToNext();
+
+            }
 
         }
         catch (Exception e) {
