@@ -15,28 +15,29 @@ public class MainActivity extends AppCompatActivity {
 
         try {
 
-            SQLiteDatabase myDatabase = this.openOrCreateDatabase("Users", MODE_PRIVATE, null);
+            SQLiteDatabase eventsDB = this.openOrCreateDatabase("Events", MODE_PRIVATE, null);
 
-            myDatabase.execSQL("CREATE TABLE IF NOT EXISTS users (name VARCHAR, age INT(3))");
+            eventsDB.execSQL("CREATE TABLE IF NOT EXISTS events (event VARCHAR, year INT(4))");
 
-            myDatabase.execSQL("INSERT INTO users (name, age) VALUES ('Rob', 34)");
+            eventsDB.execSQL("INSERT INTO events (event, year) VALUES ('End Of WW2', 1945)");
 
-            myDatabase.execSQL("INSERT INTO users (name, age) VALUES ('garfield', 34)");
+            eventsDB.execSQL("INSERT INTO events (event, year) VALUES ('Wham split up', 1986)");
 
-            Cursor c = myDatabase.rawQuery("SELECT * FROM users", null);
+            Cursor c = eventsDB.rawQuery("SELECT * FROM events", null);
 
-            int nameIndex = c.getColumnIndex("name");
-            int ageIndex = c.getColumnIndex("age");
+            int eventIndex = c.getColumnIndex("event");
+            int yearIndex = c.getColumnIndex("year");
 
             c.moveToFirst();
+
             while (c != null) {
 
-                Log.i("name", c.getString(nameIndex));
-                Log.i("age", Integer.toString(c.getInt(ageIndex)));
+                Log.i("Results- event", c.getString(eventIndex));
+                Log.i("Results- year", Integer.toString(c.getInt(yearIndex)));
 
                 c.moveToNext();
-
             }
+
 
         }
         catch (Exception e) {
